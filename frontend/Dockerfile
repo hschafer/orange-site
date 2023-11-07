@@ -1,6 +1,6 @@
 FROM node:20.8
-WORKDIR /frontend
+WORKDIR /app
 
-COPY package.json vite.config.ts ./
+COPY package.json ./
 RUN npm install
 COPY . .
