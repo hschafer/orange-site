@@ -1,4 +1,5 @@
 FROM nginx:alpine
+WORKDIR /app
 
 RUN mkdir -p /etc/nginx
 COPY nginx.conf /etc/nginx/conf.d
