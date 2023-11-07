@@ -1,11 +1,22 @@
 services:
-  server:
+  backend:
     image: golang:1.21
     volumes:
-      - ./backend:/server
-    working_dir: /server
+      - ./backend:/backend
+    working_dir: /backend
     ports:
       - 3000:3000
     command: go run src/server.go
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/frontend
+    working_dir: /frontend
+    ports:
+      - 8080:8080
+    depends_on:
+      - backend
+    command: npx vite
+
 #  db:
 #    image: postgres
