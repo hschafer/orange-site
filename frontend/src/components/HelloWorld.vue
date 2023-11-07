@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-// import axios from 'axios'
+import axios from 'axios'
 
 defineProps<{ msg: string }>()
 
@@ -8,10 +8,10 @@ const count = ref(0)
 
 const apiMsg = ref(null);
 
-//axios.get("localhost:3000").then(response => {
-//  console.log(response)
-//  apiMsg.value = response;
-//});
+axios.get("http://localhost/api").then(response => {
+  apiMsg.value = response.data;
+});
+
 </script>
 
 <template>
