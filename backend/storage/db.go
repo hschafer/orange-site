@@ -1,15 +1,9 @@
-package main
+package storage
 
 import (
-	"fmt"
 	"log"
-	"net/http"
-
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
 )
 
 var schema = `
@@ -61,17 +55,9 @@ type Post struct {
 	CreatorID int    `db:"creator_id"`
 }
 
-// Handlers
-func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
-}
+var DB *sqlx.DB
 
-func posts(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World2!")
-}
-
-// Setup
-func main() {
+func InitDBConnection() *sqlx.DB {
 	// Set up DB connection
 	db, err := sqlx.Connect("postgres", "host=db user=user password=password dbname=db sslmode=disable")
 	if err != nil {
@@ -79,27 +65,10 @@ func main() {
 	}
 
 	db.MustExec(schema)
+	DB = db
+	return DB
+}
 
-	// Echo instance
-	e := echo.New()
-
-	// Middleware
-	e.Use(middleware.Logger())
-	e.Use(middleware.Recover())
-
-	// Routes
-	e.GET("/", hello)
-	e.GET("/posts", posts)
-
-	// Test DB
-	people := []User{}
-	db.Select(&people, "SELECT * FROM users;")
-	//fmt.Print(people)
-
-	posts := []Post{}
-	db.Select(&posts, "SELECT * FROM posts;")
-	fmt.Print(posts)
-
-	// Start server
-	e.Logger.Fatal(e.Start(":3000"))
+func GetDBConnection() *sqlx.DB {
+	return DB
 }

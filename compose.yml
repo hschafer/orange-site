@@ -7,7 +7,7 @@ services:
     working_dir: /backend
     ports:
       - 3000:3000
-    command: go run src/server.go
+    command: go run main.go
   frontend:
     build:
       context: frontend
