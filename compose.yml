@@ -29,5 +29,16 @@ services:
     depends_on:
       - frontend
       - backend
-#  db:
-#    image: postgres
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    volumes:
+      - db-volume:/etc/orange-db
+    environment:
+      - POSTGRES_USER=${my_user}
+      - POSTGRES_PASSWORD=${my_pass}
+      - POSTGRES_DB=db
+
+volumes:
+  db-volume:
