@@ -48,13 +48,6 @@ type User struct {
 	CreatedOn string `db:"created_on"`
 }
 
-type Post struct {
-	PostID    int    `db:"post_id"`
-	Title     string `db:"title"`
-	CreatedOn string `db:"created_on"`
-	CreatorID int    `db:"creator_id"`
-}
-
 var DB *sqlx.DB
 
 func InitDBConnection() *sqlx.DB {

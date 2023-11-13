@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
+	"orange-site/backend/model"
 	"orange-site/backend/storage"
 
 	"github.com/labstack/echo/v4"
@@ -18,7 +20,15 @@ func hello(c echo.Context) error {
 }
 
 func posts(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World2!")
+	posts, err := model.GetAllPosts()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Print("HI THERE I GOT a post")
+	fmt.Print(posts)
+
+	return c.JSON(http.StatusOK, posts)
 }
 
 // Setup
@@ -35,15 +45,6 @@ func main() {
 	// Routes
 	e.GET("/", hello)
 	e.GET("/posts", posts)
-
-	//// Test DB
-	//people := []User{}
-	//db.Select(&people, "SELECT * FROM users;")
-	//fmt.Print(people)
-
-	posts := []storage.Post{}
-	storage.GetDBConnection().Select(&posts, "SELECT * FROM posts;")
-	fmt.Print(posts)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":3000"))
