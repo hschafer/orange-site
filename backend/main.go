@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -25,10 +24,17 @@ func posts(c echo.Context) error {
 		log.Fatalln(err)
 	}
 
-	fmt.Print("HI THERE I GOT a post")
-	fmt.Print(posts)
-
 	return c.JSON(http.StatusOK, posts)
+}
+
+func post(c echo.Context) error {
+	id := c.Param("id")
+	post, err := model.GetPost(id)
+	if err != nil {
+		return c.JSON(http.StatusNotFound, nil)
+	} else {
+		return c.JSON(http.StatusOK, post)
+	}
 }
 
 // Setup
@@ -45,6 +51,7 @@ func main() {
 	// Routes
 	e.GET("/", hello)
 	e.GET("/posts", posts)
+	e.GET("/post/:id", post)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":3000"))

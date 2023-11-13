@@ -8,7 +8,7 @@ const count = ref(0)
 
 const apiMsg = ref(null);
 
-axios.get("http://localhost/api/posts").then(response => {
+axios.get("http://localhost/api/post/1").then(response => {
   apiMsg.value = response.data;
 });
 
