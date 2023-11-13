@@ -17,6 +17,9 @@ services:
     depends_on:
       - backend
     command: npx vite
+    volumes:
+      - "./frontend:/app"
+      - "/app/node_modules"  # Anonymous volume to hide local node_modules
   nginx:
     image: nginx
     volumes:
@@ -36,9 +39,8 @@ services:
     volumes:
       - db-volume:/etc/orange-db
     environment:
-      - POSTGRES_USER=${my_user}
-      - POSTGRES_PASSWORD=${my_pass}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=db
-
 volumes:
   db-volume:
