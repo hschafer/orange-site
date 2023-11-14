@@ -13,6 +13,11 @@ type LoginInfo struct {
 }
 
 func Login(c echo.Context) error {
+	//status := ValidToken(c)
+	//if status != nil {
+	//	return status
+	//}
+
 	login := new(LoginInfo)
 	err := c.Bind(login)
 

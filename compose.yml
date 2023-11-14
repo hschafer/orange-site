@@ -8,6 +8,8 @@ services:
     ports:
       - 3000:3000
     command: go run main.go
+    environment:
+      - SERVER_SECRET=${SERVER_SECRET}
   frontend:
     build:
       context: frontend
