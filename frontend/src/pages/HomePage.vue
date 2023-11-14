@@ -2,15 +2,19 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import PostListing from '../components/PostListing.vue'
+import store from '../store'
+
 
 const posts = ref([]);
 
-axios.get("http://localhost/api/posts").then(response => {
+axios.get("/api/posts").then(response => {
   posts.value = response.data;
 });
 
 </script>
 <template>
+    <!-- TODO remove -->
+    <p>User: {{  $store.getters.getUser }}</p>
     <div id="posts">
       <PostListing
         v-for="(post, index) in posts"

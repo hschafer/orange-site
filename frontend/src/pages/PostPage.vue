@@ -14,12 +14,12 @@ const loadedPost = ref(false);
 
 const postID = parseInt(route.params.id);
 
-axios.get(`http://localhost/api/post/${postID}`).then(response => {
+axios.get(`/api/post/${postID}`).then(response => {
   loadedPost.value = true;
   post.value = response.data;
 });
 
-axios.get(`http://localhost/api/post/${postID}/comments`).then(response => {
+axios.get(`/api/post/${postID}/comments`).then(response => {
   comments.value = response.data;
 });
 </script>
