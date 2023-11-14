@@ -1,14 +1,17 @@
 <script setup>
-    defineProps({
-      comment: Object,
-    })
+import { readableTimestamp} from '../utils/utils.js'
+
+defineProps({
+    comment: Object,
+})
 </script>
+
 <template>
     <div class="comment">
         <div class="upvote">^</div>
         <div class="commentWrapper">
             <div class="commentMetadata">
-                {{ comment.CreatorID }} posted X hours ago
+                {{ comment.CreatorID }} posted {{ readableTimestamp(comment.CreatedOn) }}
             </div>
             <p>{{ comment.Comment }}</p>
 
