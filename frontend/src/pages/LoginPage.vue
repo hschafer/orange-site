@@ -1,25 +1,26 @@
 <script setup>
 import { ref } from 'vue'
 import axios from 'axios'
+import {useStore} from 'vuex'
+
+const store = useStore();
 
 const username = ref(null);
 const password = ref(null);
 const revealPassword = ref(false);
+
 // TODO Should this be a component to reduce Register redundancy?
+// TODO Add ability to hit enter on inputs to submit?
 function submit() {
   if (!username.value) {
     alert("Username must not be empty");
   } else if (!password.value) {
     alert("Password must not be empty");
   } else {
-    // TODO more password validation:?
-    axios.post("/api/login", {
+    store.dispatch("login", {
       "username": username.value,
-      "password": password.value,  // TODO Encrypt?
-    }).then((response) => {
-      console.log(response)
+      "password": password.value,
     })
-
   }
 }
 
@@ -37,7 +38,7 @@ function submit() {
         <input :type="revealPassword ? 'text' : 'password'"  v-model="password" />
         <input class="revealPassword" type="checkbox" v-model="revealPassword"> Show Password
       </div>
-      <button @click="submit">Log in</button>
+      <button @click="submit">Log in</button> <span class="loginMessage" >{{ this.$store.getters.getLoginMessage }}</span>
     </div>
 </template>
 
@@ -53,6 +54,11 @@ input {
 
 .revealPassword {
   margin-left: 1em;
+}
+
+.loginMessage {
+  color: red;
+  margin-left: 2.4em;
 }
 
 </style>
