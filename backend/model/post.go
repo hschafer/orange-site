@@ -32,7 +32,7 @@ func buildPostQuery(id ...string) (string, error) {
 		SELECT
 			p.post_id, p.title, p.url, p.created_on, p.creator_id, u.username, COUNT(c.comment_id)
 		FROM posts as p
-			LEFT JOIN comments AS c ON p.post_id = c.comment_id
+			LEFT JOIN comments AS c ON p.post_id = c.post_id
 			LEFT JOIN users as u ON p.creator_id = u.user_id
 		%s
 		GROUP BY (p.post_id, u.user_id)
