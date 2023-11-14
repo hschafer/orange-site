@@ -61,7 +61,6 @@ button:focus-visible {
 #app {
   margin: 0;
   width: 100vw;
-  text-align: center;
 }
 
 @media (prefers-color-scheme: light) {

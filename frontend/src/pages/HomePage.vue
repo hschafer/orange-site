@@ -1,28 +1,30 @@
-<script>
+<script setup>
 import { ref } from 'vue'
+import axios from 'axios'
+import PostListing from '../components/PostListing.vue'
+
+const posts = ref([]);
+
+axios.get("http://localhost/api/posts").then(response => {
+  posts.value = response.data;
+});
+
 </script>
 <template>
-    <div class="hello">
-      <p>test</p>
+    <div id="posts">
+      <PostListing
+        v-for="(post, index) in posts"
+        :title="post.Title"
+        :author="post.CreatorID"
+        :rank="index+1"
+        :url="'https://google.com'"
+      />
     </div>
-  </template>
+</template>
 
-  <style scoped>
-  h1 {
-    margin: 40px 0 0;
+<style scoped>
+  #posts {
+    padding-top: 0.5em;
+    padding-left: 1em;
   }
-  h3 {
-    margin: 40px 0 0;
-  }
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-  a {
-    color: #42b983;
-  }
-  </style>
+</style>
