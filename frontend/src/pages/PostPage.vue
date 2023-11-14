@@ -22,6 +22,7 @@ axios.get(`http://localhost/api/post/${route.params.id}/comments`).then(response
 <template>
   <div id="container">
     <PostListing
+      :id="$route.params.id"
       :title="post.Title"
       :author="post.CreatorName"
       :rank="index+1"

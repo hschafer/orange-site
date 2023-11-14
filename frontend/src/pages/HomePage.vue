@@ -14,6 +14,7 @@ axios.get("http://localhost/api/posts").then(response => {
     <div id="posts">
       <PostListing
         v-for="(post, index) in posts"
+        :id="post.PostID"
         :title="post.Title"
         :author="post.CreatorName"
         :rank="index+1"

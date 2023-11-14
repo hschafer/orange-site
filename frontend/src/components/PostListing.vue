@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { readableTimestamp} from '../utils/utils.js'
 
 defineProps({
+  id: Number,
   rank: Number,
   title: String,
   author: String,
@@ -25,12 +26,13 @@ defineProps({
         </div>
         <div class="postInfo">
             <div class="postFirstRow">
-                <a v-bind:href="url">{{ title }}</a> <span class="postURL">(<a class="domain" v-bind:href="url">{{ url }}</a>)</span>
+                <a class="postTitle" v-bind:href="url">{{ title }}</a> <span class="postURL">(<a class="domain" v-bind:href="url">{{ url }}</a>)</span>
             </div>
             <div class="postSecondRow">
-                X points by {{ author }} {{ readableTimestamp(createdOn) }} | {{ numComments }} comment<span v-if="numComments != 1">s</span>
+                X points by {{ author }} {{ readableTimestamp(createdOn) }} |
+                <router-link :to="`/post/${id}`">{{ numComments }} comment<span v-if="numComments != 1">s</span></router-link>
             </div>
-            <!-- TODO user link and comments link -->
+            <!-- TODO user link -->
         </div>
     </div>
 </template>
@@ -39,14 +41,16 @@ defineProps({
     .post {
         padding-top: 0.25em;
         display: flex;
+        color: #828282
     }
 
     .post a {
-        color: black;
+        color: #828282;
+        text-decoration: none;
     }
 
-    .postRank, .postURL, .postSecondRow, .domain, .post a:visited {
-        color: #828282
+    a.postTitle {
+        color: black;
     }
 
     .postInfo {
