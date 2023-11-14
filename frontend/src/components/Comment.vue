@@ -11,7 +11,7 @@ defineProps({
         <div class="upvote">^</div>
         <div class="commentWrapper">
             <div class="commentMetadata">
-                {{ comment.CreatorID }} posted {{ readableTimestamp(comment.CreatedOn) }}
+                {{ comment.Username }} posted {{ readableTimestamp(comment.CreatedOn) }}
             </div>
             <p>{{ comment.Comment }}</p>
 

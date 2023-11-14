@@ -10,6 +10,7 @@ type Comment struct {
 	Comment   string        `db:"comment"`
 	CreatedOn string        `db:"created_on"`
 	CreatorID int           `db:"creator_id"`
+	Username  string        `db:"username"`
 	PostID    int           `db:"post_id"`
 	ParentID  sql.NullInt64 `db:"parent_id"`
 	Children  []*Comment
@@ -19,7 +20,13 @@ func GetComments(id string) ([]*Comment, error) {
 	db := storage.GetDBConnection()
 
 	comments := []*Comment{}
-	err := db.Select(&comments, "SELECT * FROM comments WHERE post_id = $1 ORDER BY created_on DESC", id)
+	err := db.Select(&comments, `
+		SELECT c.comment_id, c.comment, c.created_on, c.creator_id, c.post_id, c.parent_id, u.username
+		FROM comments AS c
+		LEFT JOIN users AS u ON c.creator_id = u.user_id
+		WHERE c.post_id = $1
+		ORDER BY c.created_on DESC
+	`, id)
 
 	if err != nil {
 		return nil, err
