@@ -7,6 +7,7 @@ import (
 type Post struct {
 	PostID    int    `db:"post_id"`
 	Title     string `db:"title"`
+	Url       string `db:"url"`
 	CreatedOn string `db:"created_on"`
 	CreatorID int    `db:"creator_id"`
 }

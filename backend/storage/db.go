@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS posts (
     post_id serial PRIMARY KEY,
     title VARCHAR (100) NOT NULL,
+	url VARCHAR (100) NOT NULL,
     created_on TIMESTAMP NOT NULL,
     creator_id INT,
     FOREIGN KEY (creator_id)
