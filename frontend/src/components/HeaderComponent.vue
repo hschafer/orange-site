@@ -3,20 +3,31 @@
 </script>
 
 <template>
-    <div class="header">
-        <div class="icon">H</div> <b>HunterNews</b>
+    <div id="header">
+        <div id="icon">H</div> <span id="title">HunterNews</span> <router-link to="/">posts</router-link> | <router-link to="/about">about</router-link> | <router-link to="/demo">demo</router-link>
     </div>
 </template>
 
 <style scoped>
-    .header {
+    #header {
         width: 100%;
         text-align: left;
         background-color: #F86602;
         padding: 0.5em 1em 0.5em 1em;
+
     }
 
-    .icon {
+    #header a {
+        color: black;
+        text-decoration: none;
+    }
+
+
+    #title {
+        font-weight: bold;
+    }
+
+    #icon {
         display: inline-block;
         width: 24px;
         height: 24px;
