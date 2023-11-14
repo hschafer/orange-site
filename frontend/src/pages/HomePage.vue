@@ -18,6 +18,7 @@ axios.get("http://localhost/api/posts").then(response => {
         :author="post.CreatorName"
         :rank="index+1"
         :url="post.Url"
+        :createdOn="post.CreatedOn"
         :numComments="post.NumComments"
       />
     </div>

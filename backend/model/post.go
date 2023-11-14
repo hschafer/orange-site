@@ -35,7 +35,8 @@ func buildPostQuery(id ...string) (string, error) {
 			LEFT JOIN comments AS c ON p.post_id = c.comment_id
 			LEFT JOIN users as u ON p.creator_id = u.user_id
 		%s
-		GROUP BY (p.post_id, u.user_id);
+		GROUP BY (p.post_id, u.user_id)
+		ORDER BY p.created_on DESC;
 	`, post_filter)
 
 	return query, nil
