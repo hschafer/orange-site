@@ -2,9 +2,9 @@ import './style.css'
 
 import { createRouter, createWebHistory } from 'vue-router'
 
-import AboutPage from './pages/AboutComponent.vue'
+import AboutPage from './pages/AboutPage.vue'
 import App from './App.vue'
-import HomePage from './pages/HomeComponent.vue'
+import HomePage from './pages/HomePage.vue'
 import { createApp } from 'vue'
 
 const router = createRouter({
