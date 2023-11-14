@@ -4,7 +4,7 @@
 
 <template>
     <div id="header">
-        <div id="icon">H</div> <span id="title">HunterNews</span> <router-link to="/">posts</router-link> | <router-link to="/about">about</router-link> | <router-link to="/demo">demo</router-link>
+        <router-link to="/"><div id="icon">H</div> <span id="title">HunterNews</span></router-link> <router-link to="/">posts</router-link> | <router-link to="/about">about</router-link> | <router-link to="/demo">demo</router-link>
     </div>
 </template>
 
