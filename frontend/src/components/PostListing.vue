@@ -16,6 +16,10 @@ defineProps({
   }
 })
 
+function previewURL(url) {
+    var urlObj = new URL(url);
+    return urlObj.hostname;
+}
 // TODO compute a preview URL
 </script>
 
@@ -26,7 +30,7 @@ defineProps({
         </div>
         <div class="postInfo">
             <div class="postFirstRow">
-                <a class="postTitle" v-bind:href="url">{{ title }}</a> <span class="postURL">(<a class="domain" v-bind:href="url">{{ url }}</a>)</span>
+                <a class="postTitle" v-bind:href="url">{{ title }}</a> <span class="postURL">(<a class="domain" v-bind:href="url">{{ previewURL(url) }}</a>)</span>
             </div>
             <div class="postSecondRow">
                 X points by {{ author }} {{ readableTimestamp(createdOn) }} |
@@ -57,7 +61,7 @@ defineProps({
         padding-left: 0.4em;
     }
 
-    .postSecondRow {
+    .postSecondRow, .domain {
         font-size: small;
     }
 </style>
