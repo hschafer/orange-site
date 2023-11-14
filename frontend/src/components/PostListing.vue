@@ -55,11 +55,12 @@ function readableTimestamp(createdOn) {
         </div>
         <div class="postInfo">
             <div class="postFirstRow">
-                {{ title }} <span class="postURL">(<a href="{{ url }}">{{ url }}</a>)</span>
+                <a v-bind:href="url">{{ title }}</a> <span class="postURL">(<a class="domain" v-bind:href="url">{{ url }}</a>)</span>
             </div>
             <div class="postSecondRow">
                 X points by {{ author }} {{ readableTimestamp(createdOn) }} | {{ numComments }} comment<span v-if="numComments != 1">s</span>
             </div>
+            <!-- TODO user link and comments link -->
         </div>
     </div>
 </template>
@@ -70,7 +71,11 @@ function readableTimestamp(createdOn) {
         display: flex;
     }
 
-    .postRank, .postURL, .postSecondRow, .post a{
+    .post a {
+        color: black;
+    }
+
+    .postRank, .postURL, .postSecondRow, .domain, .post a:visited {
         color: #828282
     }
 
