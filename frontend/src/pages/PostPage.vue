@@ -7,10 +7,13 @@ import Comment from '../components/Comment.vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute();
+
 const post = ref(null);
 const comments = ref([]);
+const loadedPost = ref(false);
 
 axios.get(`http://localhost/api/post/${route.params.id}`).then(response => {
+  loadedPost.value = true;
   post.value = response.data;
 });
 
@@ -30,6 +33,7 @@ axios.get(`http://localhost/api/post/${route.params.id}/comments`).then(response
       :createdOn="post.CreatedOn"
       :numComments="post.NumComments"
       :showRank="false"
+      v-if="loadedPost"
     />
 
     <CommentBox></CommentBox>
