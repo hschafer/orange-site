@@ -30,6 +30,5 @@ axios.get("/api/posts").then(response => {
 <style scoped>
   #posts {
     padding-top: 0.5em;
-    padding-left: 1em;
   }
 </style>

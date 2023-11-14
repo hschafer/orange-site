@@ -51,8 +51,4 @@ axios.get(`/api/post/${postID}/comments`).then(response => {
 </template>
 
 <style scoped>
-  #container {
-    margin-left: 1em;
-    margin-top: 0.5em;
-  }
 </style>

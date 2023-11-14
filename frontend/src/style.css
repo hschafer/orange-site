@@ -21,6 +21,10 @@ body {
 }
 
 #app {
-  margin: 0;
+  margin: 0 0 0 0;
   width: 100vw;
+}
+
+#appBody {
+  margin-left: 1em;
 }
