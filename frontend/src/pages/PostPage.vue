@@ -12,12 +12,14 @@ const post = ref(null);
 const comments = ref([]);
 const loadedPost = ref(false);
 
-axios.get(`http://localhost/api/post/${route.params.id}`).then(response => {
+const postID = parseInt(route.params.id);
+
+axios.get(`http://localhost/api/post/${postID}`).then(response => {
   loadedPost.value = true;
   post.value = response.data;
 });
 
-axios.get(`http://localhost/api/post/${route.params.id}/comments`).then(response => {
+axios.get(`http://localhost/api/post/${postID}/comments`).then(response => {
   comments.value = response.data;
 });
 </script>
@@ -25,10 +27,10 @@ axios.get(`http://localhost/api/post/${route.params.id}/comments`).then(response
 <template>
   <div id="container">
     <PostListing
-      :id="$route.params.id"
+      :id="postID"
       :title="post.Title"
       :author="post.CreatorName"
-      :rank="index+1"
+      :rank="-1"
       :url="post.Url"
       :createdOn="post.CreatedOn"
       :numComments="post.NumComments"
