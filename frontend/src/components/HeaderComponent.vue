@@ -4,7 +4,6 @@ import { useStore } from 'vuex'
 
 const store = useStore();
 
-const loggedIn = ref(store.getters.isAuthenticated);
 </script>
 
 <template>
@@ -12,7 +11,7 @@ const loggedIn = ref(store.getters.isAuthenticated);
         <router-link to="/"><div id="icon">H</div> <span id="title">HunterNews</span></router-link>
         <router-link to="/">posts</router-link> |
         <router-link to="/about">about</router-link> |
-        <router-link to="/login" v-if="loggedIn">login</router-link><router-link to="/logout" v-else>logout</router-link>
+        <router-link to="/login" v-if="this.$store.getters.isAuthenticated">login</router-link><a @click="() => store.dispatch('logout')" href="" v-else>logout</a>
         <!-- TODO do I need a logout page? or is it just some sort of api call? -->
     </div>
 </template>

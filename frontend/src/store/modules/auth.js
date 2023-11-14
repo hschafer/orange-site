@@ -1,15 +1,14 @@
 import axios from 'axios';
 
 const state = {
-    user: null,
-    token: null,
+    user: null,  // {name, token}
     loginMessage: null
 };
 
 const getters = {
     isAuthenticated: (state) => !state.user,
-    getUser: (state) => state.user,
-    getToken: (state) => state.token,
+    getUsername: (state) => state.user?.name,
+    getToken: (state) => state.token?.token,
     getLoginMessage: (state) => state.loginMessage
 };
 
@@ -24,8 +23,10 @@ const actions = {
           "username": username,
           "password": password,
         }).then((response) => {
-          commit("setUser", username)
-          commit("setToken", response.data.Token)
+          commit("setUser", {
+            "name": username,
+            "token": response.data.Token
+          })
           commit("setLoginMessage", "")  // Clear login message
         }).catch((error) => {
           if (error.response.data.Message) {
@@ -39,15 +40,11 @@ const actions = {
     async logout({ commit }) {
         commit("setUser", null)
     }
-
 };
 
 const mutations = {
-    setUser(state, username) {
-        state.user = username
-    },
-    setToken(state, token) {
-        state.token = token
+    setUser(state, user) {
+        state.user = user
     },
     setLoginMessage(state, message) {
         state.loginMessage = message
