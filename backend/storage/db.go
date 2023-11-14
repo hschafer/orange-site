@@ -32,10 +32,13 @@ CREATE TABLE IF NOT EXISTS comments (
     created_on TIMESTAMP NOT NULL,
     creator_id INT,
     post_id INT,
+	parent_id INT,
     FOREIGN KEY (creator_id)
         REFERENCES users (user_id),
     FOREIGN KEY (post_id)
-        REFERENCES posts (post_id)
+        REFERENCES posts (post_id),
+	FOREIGN KEY (parent_id)
+		REFERENCES comments (comment_id)
     -- TODO nested comments
     -- TODO Votes
 );
