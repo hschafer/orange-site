@@ -1,0 +1,35 @@
+<script setup>
+import { ref } from 'vue'
+
+const comment = ref("");
+
+function addComment() {
+  alert(comment.value);
+}
+</script>
+
+<template>
+    <div class="commentBox">
+      <textarea v-model="comment"></textarea>
+      <button @click="addComment">add comment</button>
+    </div>
+</template>
+
+<style scoped>
+  .commentBox {
+    padding-top: 0.5em;
+    display: flex;
+    flex-direction: column;
+  }
+  .commentBox textarea {
+    width: 50vw;
+    height: 10vh;
+    min-height: 5em;
+  }
+
+  .commentBox button {
+    margin-top: 1em;
+    width: fit-content;
+  }
+
+</style>

@@ -7,7 +7,11 @@ defineProps({
   author: String,
   url: String,
   createdOn: String,
-  numComments: Number
+  numComments: Number,
+  showRank: {
+    type: Boolean,
+    default: true
+  }
 })
 
 function readableTimestamp(createdOn) {
@@ -51,7 +55,7 @@ function readableTimestamp(createdOn) {
 <template>
     <div class="post">
         <div class="postRank">
-            {{ rank }}. ^
+            <span v-if="showRank">{{ rank }}. </span>^
         </div>
         <div class="postInfo">
             <div class="postFirstRow">
