@@ -1,8 +1,6 @@
 package main
 
 import (
-	"os"
-
 	"orange-site/backend/controller"
 	"orange-site/backend/storage"
 
@@ -13,14 +11,6 @@ import (
 	_ "github.com/lib/pq"
 )
 
-func getSecret() string {
-	secret := os.Getenv("SERVER_SECRET")
-	if secret == "" {
-		panic("No secret specified")
-	}
-	return secret
-}
-
 // Setup
 func main() {
 	storage.InitDBConnection()
@@ -29,7 +19,7 @@ func main() {
 	e := echo.New()
 
 	// Get server secret to set up JWT middleware
-	secret := getSecret()
+	secret := controller.GetSecret()
 
 	// Middleware
 	e.Use(middleware.Logger())
