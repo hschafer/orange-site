@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import PostListing from '../components/PostListing.vue'
-import store from '../store'
-
 
 const posts = ref([]);
 
