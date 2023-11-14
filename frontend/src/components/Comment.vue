@@ -37,7 +37,7 @@ defineProps({
     }
 
     .comment p {
-        margin-top: 0;
+        margin-top: 0.1em;
         margin-bottom: 0.1em;
     }
 
@@ -55,5 +55,10 @@ defineProps({
 
     .commentMetadata {
         font-size: small;
+    }
+
+    .children {
+        padding-left: 2em;
+        border-left: 1px solid #828282;
     }
 </style>
