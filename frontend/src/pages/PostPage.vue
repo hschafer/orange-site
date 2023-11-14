@@ -3,13 +3,19 @@ import { ref } from 'vue'
 import axios from 'axios'
 import PostListing from '../components/PostListing.vue'
 import CommentBox from '../components/CommentBox.vue'
+import Comment from '../components/Comment.vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute();
 const post = ref(null);
+const comments = ref([]);
 
 axios.get(`http://localhost/api/post/${route.params.id}`).then(response => {
   post.value = response.data;
+});
+
+axios.get(`http://localhost/api/post/${route.params.id}/comments`).then(response => {
+  comments.value = response.data;
 });
 </script>
 
@@ -26,6 +32,13 @@ axios.get(`http://localhost/api/post/${route.params.id}`).then(response => {
     />
 
     <CommentBox></CommentBox>
+
+    <div id="comments">
+      <Comment
+        v-for="(comment, index) in comments"
+        :comment="comment"
+      />
+    </div>
   </div>
 </template>
 
