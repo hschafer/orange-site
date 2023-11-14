@@ -6,6 +6,7 @@ defineProps({
   title: String,
   author: String,
   url: String,
+  numComments: Number
 })
 
 // TODO compute a preview URL
@@ -21,7 +22,7 @@ defineProps({
                 {{ title }} <span class="postURL">(<a href="{{ url }}">{{ url }}</a>)</span>
             </div>
             <div class="postSecondRow">
-                X points by {{ author }} Y time ago | Z comments
+                X points by {{ author }} Y time ago | {{ numComments }} comment<span v-if="numComments != 1">s</span>
             </div>
         </div>
     </div>

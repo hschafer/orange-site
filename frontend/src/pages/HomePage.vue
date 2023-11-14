@@ -15,9 +15,10 @@ axios.get("http://localhost/api/posts").then(response => {
       <PostListing
         v-for="(post, index) in posts"
         :title="post.Title"
-        :author="post.CreatorID"
+        :author="post.CreatorName"
         :rank="index+1"
-        :url="'https://google.com'"
+        :url="post.Url"
+        :numComments="post.NumComments"
       />
     </div>
 </template>

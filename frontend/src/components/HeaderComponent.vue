@@ -13,7 +13,7 @@
         width: 100%;
         text-align: left;
         background-color: #F86602;
-        padding: 0.5em 1em 0.5em 1em;
+        padding: 0.75em 1em 0.5em 1em;
 
     }
 
