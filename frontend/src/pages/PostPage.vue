@@ -37,6 +37,7 @@ axios.get(`http://localhost/api/post/${route.params.id}/comments`).then(response
       <Comment
         v-for="(comment, index) in comments"
         :comment="comment"
+        :indent="0"
       />
     </div>
   </div>
