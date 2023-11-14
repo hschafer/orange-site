@@ -8,4 +8,5 @@ func SetRoutes(e *echo.Echo) {
 	e.GET("/posts", GetAllPosts)
 	e.GET("/post/:id", GetPost)
 	e.GET("/post/:id/comments", GetComments)
+	e.POST("/login", Login)
 }
