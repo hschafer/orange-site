@@ -19,9 +19,13 @@ axios.get(`/api/post/${postID}`).then(response => {
   post.value = response.data;
 });
 
-axios.get(`/api/post/${postID}/comments`).then(response => {
-  comments.value = response.data;
-});
+function loadComments() {
+  axios.get(`/api/post/${postID}/comments`).then(response => {
+    comments.value = response.data;
+  });
+}
+
+loadComments();
 </script>
 
 <template>
@@ -38,7 +42,11 @@ axios.get(`/api/post/${postID}/comments`).then(response => {
       v-if="loadedPost"
     />
 
-    <CommentBox></CommentBox>
+    <CommentBox
+      :postID="postID"
+      :onComment="loadComments"
+
+    />
 
     <div id="comments">
       <Comment

@@ -1,10 +1,31 @@
 <script setup>
+import axios from 'axios';
 import { ref } from 'vue'
+import { useStore } from 'vuex'
+
+const props = defineProps({
+  postID: Number,
+  onComment: Function
+});
+const store = useStore();
 
 const comment = ref("");
 
 function addComment() {
-  alert(comment.value);
+  axios.post("/api/comment/new", {
+    "comment": comment.value,
+    "postID": props.postID
+  }, {
+    "headers": {
+      "Authorization": `Bearer ${store.getters.getToken}`
+    }
+  }).then(() => {
+    console.log("Comment posted");
+    comment.value = "";  // Clear the text box
+    props.onComment();
+  }).catch((error) => {
+    console.log("Error posting comment", error)
+  });
 }
 </script>
 
