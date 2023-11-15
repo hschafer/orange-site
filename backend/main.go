@@ -20,17 +20,21 @@ func main() {
 
 	// Get server secret to set up JWT middleware
 	secret := controller.GetSecret()
+	jwt := echojwt.WithConfig(echojwt.Config{
+		SigningKey: []byte(secret),
+		Skipper:    controller.SkipRoutes,
+	})
 
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	e.Use(echojwt.WithConfig(echojwt.Config{
-		SigningKey: []byte(secret),
-		Skipper:    controller.SkipRoutes,
-	}))
+	//e.Use(echojwt.WithConfig(echojwt.Config{
+	//	SigningKey: []byte(secret),
+	//	Skipper:    controller.SkipRoutes,
+	//}))
 
 	// Routes
-	controller.SetRoutes(e)
+	controller.SetRoutes(e, jwt)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":3000"))

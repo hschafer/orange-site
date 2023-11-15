@@ -14,9 +14,10 @@ func SkipRoutes(c echo.Context) bool {
 	return noToken[c.Request().URL.Path]
 }
 
-func SetRoutes(e *echo.Echo) {
+func SetRoutes(e *echo.Echo, jwt echo.MiddlewareFunc) {
 	e.GET("/posts", GetAllPosts)
 	e.GET("/post/:id", GetPost)
 	e.GET("/post/:id/comments", GetComments)
 	e.POST("/login", Login)
+	e.POST("/post_comment,", nil, jwt) // TODO
 }
