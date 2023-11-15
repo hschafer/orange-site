@@ -21,7 +21,7 @@ const actions = {
 
     async login({ commit }, {username, password}) {
         // TODO more password validation:?
-        axios.post("/api/login", {
+        return axios.post("/api/login", {
             "username": username,
             "password": password,
         }).then((response) => {
