@@ -7,8 +7,9 @@ const route = useRoute();
 const router = useRouter();
 
 function login() {
+    console.log("HELLO", route.path)
     router.push({
-        path: "login",
+        path: "/login",
         query: {
             redirectFrom: route.path
         }
