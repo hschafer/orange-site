@@ -12,7 +12,7 @@ axios.get("/api/posts").then(response => {
 </script>
 <template>
     <!-- TODO remove -->
-    <p>User: {{  $store.getters.getUser }}</p>
+    <p>User: - {{  $store.getters.getToken }} - {{ $store.getters.isAuthenticated }} ! {{ $store.state.user }} !</p>
     <div id="posts">
       <PostListing
         v-for="(post, index) in posts"

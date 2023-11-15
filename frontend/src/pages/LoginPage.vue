@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
 import {useStore} from 'vuex'
 
 const store = useStore();
@@ -27,19 +26,23 @@ function submit() {
 </script>
 <template>
     <div class="hello">
-      <h1>Login</h1>
-
-      <div>
-        <label for="username">Username: </label>
-        <input v-model="username" />
+      <div v-if="this.$store.getters.isAuthenticated">
+        <p>Already logged in! :)</p>
       </div>
-      <div>
-        <label for="password">Password: </label>
-        <input :type="revealPassword ? 'text' : 'password'"  v-model="password" />
-        <input class="revealPassword" type="checkbox" v-model="revealPassword"> Show Password
+      <div v-else>
+        <h1>Login</h1>
+        <div>
+          <label for="username">Username: </label>
+          <input v-model="username" />
+        </div>
+        <div>
+          <label for="password">Password: </label>
+          <input :type="revealPassword ? 'text' : 'password'"  v-model="password" />
+          <input class="revealPassword" type="checkbox" v-model="revealPassword"> Show Password
+        </div>
+        <button @click="submit">Log in</button> <span class="loginMessage" v-if="this.$store.getters.getLoginMessage">{{ this.$store.getters.getLoginMessage }}</span>
       </div>
-      <button @click="submit">Log in</button> <span class="loginMessage" >{{ this.$store.getters.getLoginMessage }}</span>
-    </div>
+  </div>
 </template>
 
 <style scoped>
