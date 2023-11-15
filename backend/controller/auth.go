@@ -78,3 +78,37 @@ func Login(c echo.Context) error {
 		})
 	}
 }
+
+func Register(c echo.Context) error {
+	login := new(LoginInfo)
+	err := c.Bind(login)
+
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Bad Request")
+	}
+
+	// Find if the username/password match
+	_, err = model.FindUser(login.Username)
+	if err == nil {
+		return c.JSON(http.StatusBadRequest, LoginResponse{
+			Authenticated: false,
+			Message:       "Account name already exists",
+		})
+	}
+
+	_, err = model.AddUser(login.Username, login.Password)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "Failed to make account")
+	}
+
+	token, err := createToken(login.Username)
+
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Unable to make authentication token")
+	} else {
+		return c.JSON(http.StatusOK, LoginResponse{
+			Authenticated: true,
+			AuthToken:     token,
+		})
+	}
+}

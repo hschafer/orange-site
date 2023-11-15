@@ -22,3 +22,30 @@ func AuthenticateUser(username string, password string) (bool, error) {
 
 	return true, nil
 }
+
+func FindUser(username string) (*User, error) {
+	db := storage.GetDBConnection()
+
+	user := User{}
+	err := db.Get(&user, "SELECT * FROM users WHERE username = $1", username)
+
+	// TODO sanitize inputs
+	return &user, err
+}
+
+func AddUser(username string, password string) (*User, error) {
+	db := storage.GetDBConnection()
+
+	tx := db.MustBegin()
+	_, err := tx.Exec(`
+		INSERT INTO users (username, password, created_on)
+		VALUES ($1, $2, NOW())
+	`, username, password)
+	tx.Commit()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return FindUser(username)
+}
