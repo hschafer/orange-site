@@ -1,5 +1,4 @@
 <script setup>
-import { useStore } from 'vuex'
 import AccountForm from '../components/AccountForm.vue'
 </script>
 
@@ -10,10 +9,25 @@ import AccountForm from '../components/AccountForm.vue'
       </div>
       <div v-else>
         <h1>Login</h1>
-        <AccountForm />
+        <p></p>
+        <AccountForm
+          message="Log in to an existing account"
+          action="login"
+          buttonLabel="Log in"
+        />
+
+        <h1>Register</h1>
+        <AccountForm
+          message="Don't have an account? Create a new one for free!"
+          action="register"
+          buttonLabel="Register"
+        />
       </div>
   </div>
 </template>
 
 <style scoped>
+  p {
+    margin-top: 0em;
+  }
 </style>

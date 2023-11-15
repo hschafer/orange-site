@@ -3,6 +3,12 @@ import { ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 
+const props = defineProps({
+    message: String,
+    action: String,
+    buttonLabel: String,
+})
+
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
@@ -19,13 +25,10 @@ async function submit() {
   } else if (!password.value) {
     alert("Password must not be empty");
   } else {
-    console.log(username.value, password.value)
-    await store.dispatch("login", {
+    await store.dispatch(props.action, {
       "username": username.value,
       "password": password.value,
     })
-
-    console.log(store.getters.isAuthenticated);
 
     if (store.getters.isAuthenticated) {
         // Redirect if we logged in successfully
@@ -36,6 +39,7 @@ async function submit() {
 </script>
 
 <template>
+    <p>{{ message }}</p>
     <div>
       <label for="username">Username: </label>
       <input v-model="username" />
@@ -45,13 +49,19 @@ async function submit() {
       <input :type="revealPassword ? 'text' : 'password'"  v-model="password" />
       <input class="revealPassword" type="checkbox" v-model="revealPassword"> Show Password
     </div>
-    <button @click="submit">Log in</button> <span class="loginMessage" v-if="this.$store.getters.getLoginMessage">{{ this.$store.getters.getLoginMessage }}</span>
+    <!-- TODO Login messages are linked between instances -->
+    <button @click="submit">{{ buttonLabel }}</button> <span class="loginMessage" v-if="this.$store.getters.getLoginMessage">{{ this.$store.getters.getLoginMessage }}</span>
 </template>
 
 <style scoped>
-    label {
+  label {
     display: inline-block;
     min-width: 6em;
+    font-weight:bold;
+  }
+
+  p {
+    margin-top: 0;
   }
 
   input {
