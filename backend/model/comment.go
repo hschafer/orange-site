@@ -59,9 +59,9 @@ func AddComment(user User, comment Comment) error {
 
 	tx := db.MustBegin()
 	_, err := tx.Exec(`
-		INSERT INTO comments (comment, created_on, creator_id, post_id)
-		VALUES ($1, NOW(), $2, $3)
-	`, comment.Comment, user.UserID, comment.PostID) // TODO Parent ID
+		INSERT INTO comments (comment, created_on, creator_id, post_id, parent_id)
+		VALUES ($1, NOW(), $2, $3, $4)
+	`, comment.Comment, user.UserID, comment.PostID, comment.ParentID)
 	tx.Commit()
 
 	return err

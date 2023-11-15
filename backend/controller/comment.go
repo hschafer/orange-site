@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"database/sql"
 	"fmt"
 	"net/http"
 	"orange-site/backend/model"
@@ -19,12 +20,12 @@ func GetComments(c echo.Context) error {
 }
 
 type CommentData struct {
-	Comment string
-	PostID  int
+	Comment  string
+	PostID   int
+	ParentID *int
 }
 
 func PostComment(c echo.Context) error {
-	fmt.Println("MADE IT TO COMMENT")
 	claims, err := ParseToken(c)
 	// TODO refresh if logged in?
 	if err != nil {
@@ -46,17 +47,21 @@ func PostComment(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Unable to find user")
 	}
 
-	// TODO parent comment ID?
+	parentID := sql.NullInt64{}
+	if comment.ParentID != nil {
+		parentID.Int64 = int64(*comment.ParentID)
+		parentID.Valid = true
+	}
 	err = model.AddComment(*user, model.Comment{
-		Comment: comment.Comment,
-		PostID:  comment.PostID,
+		Comment:  comment.Comment,
+		PostID:   comment.PostID,
+		ParentID: parentID,
 	})
 
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Unable to post comment")
 	}
 
-	fmt.Printf("COMMENT RECEIVED %+v\n", comment)
 	return c.String(http.StatusOK, "Comment posted!")
 
 }
