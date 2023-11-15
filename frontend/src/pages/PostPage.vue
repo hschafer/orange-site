@@ -45,14 +45,14 @@ loadComments();
     <CommentBox
       :postID="postID"
       :onComment="loadComments"
-
     />
 
     <div id="comments">
       <Comment
         v-for="(comment, index) in comments"
         :comment="comment"
-        :indent="0"
+        :postID="postID"
+        :onComment="loadComments"
       />
     </div>
   </div>

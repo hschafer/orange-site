@@ -1,9 +1,19 @@
 <script setup>
+import { ref } from 'vue';
 import { readableTimestamp} from '../utils/utils.js'
+import CommentBox from './CommentBox.vue';
 
 defineProps({
     comment: Object,
+    postID: Number,
+    onComment: Function
 })
+
+const showCommentBox = ref(false);
+
+function toggleShowComment() {
+    showCommentBox.value = !showCommentBox.value;
+}
 </script>
 
 <template>
@@ -16,12 +26,23 @@ defineProps({
             <p>{{ comment.Comment }}</p>
 
             <!-- TODO link to comment page-->
-            <router-link to="/">reply</router-link>
+
+            <div v-if="showCommentBox">
+                <CommentBox
+                    :postID="postID"
+                    :onComment="onComment"
+                    :parentID="comment.CommentID"
+                />
+            </div>
+
+            <span class="clickable" @click="toggleShowComment">{{ showCommentBox ? 'close' : 'reply' }}</span>
 
             <div class="children" v-if="comment.Children">
                 <Comment
                     v-for="(child, _) in comment.Children"
                     :comment="child"
+                    :postID="postID"
+                    :onComment="onComment"
                 />
             </div>
         </div>
@@ -60,5 +81,12 @@ defineProps({
     .children {
         padding-left: 2em;
         border-left: 1px solid #828282;
+    }
+
+    .clickable {
+        color: black;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: small;
     }
 </style>

@@ -5,7 +5,11 @@ import { useStore } from 'vuex'
 
 const props = defineProps({
   postID: Number,
-  onComment: Function
+  onComment: Function,
+  parentID: {
+    type: [Number, null],
+    default: null
+  }
 });
 const store = useStore();
 
@@ -14,7 +18,8 @@ const comment = ref("");
 function addComment() {
   axios.post("/api/comment/new", {
     "comment": comment.value,
-    "postID": props.postID
+    "postID": props.postID,
+    "parentID": props.parentID,
   }, {
     "headers": {
       "Authorization": `Bearer ${store.getters.getToken}`
