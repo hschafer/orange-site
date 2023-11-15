@@ -14,27 +14,32 @@ const getters = {
     getLoginMessage: (state) => state.loginMessage
 };
 
+async function loginOrRegister(route, commit, username, password) {
+    return axios.post(route, {
+        "username": username,
+        "password": password,
+    }).then((response) => {
+        commit("setUsername", username)
+        commit("setToken", response.data.AuthToken)
+        commit("setLoginMessage", "")  // Clear login message
+    }).catch((error) => {
+        if (error.response.data.Message) {
+          commit("setLoginMessage", error.response.data.Message)
+        } else {
+          commit("setLoginMessage", "Unable to log in")
+        }
+    });
+    // TODO handle login message
+}
+
 const actions = {
-    async register({dispatch}, form) {
-        // TODO
+    async register({commit}, {username, password}) {
+        return loginOrRegister("/api/register", commit, username, password)
     },
 
     async login({ commit }, {username, password}) {
         // TODO more password validation:?
-        return axios.post("/api/login", {
-            "username": username,
-            "password": password,
-        }).then((response) => {
-            commit("setUsername", username)
-            commit("setToken", response.data.AuthToken)
-            commit("setLoginMessage", "")  // Clear login message
-        }).catch((error) => {
-            if (error.response.data.Message) {
-              commit("setLoginMessage", error.response.data.Message)
-            } else {
-              commit("setLoginMessage", "Unable to log in")
-            }
-        })
+        return loginOrRegister("/api/login", commit, username, password)
     },
 
     async logout({ commit }) {

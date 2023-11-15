@@ -30,6 +30,7 @@ async function submit() {
       "password": password.value,
     })
 
+    // TODO navigate to account page if registration?
     if (store.getters.isAuthenticated) {
         // Redirect if we logged in successfully
         router.push(route.query.redirectFrom || "/")
