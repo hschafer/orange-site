@@ -8,11 +8,19 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type LoginInfo struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type LoginResponse struct {
+	Username      string
+	Authenticated bool
+	AuthToken     string `default:""`
+	Message       string `default:""`
 }
 
 func GetSecret() string {
@@ -21,6 +29,11 @@ func GetSecret() string {
 		panic("No secret specified")
 	}
 	return secret
+}
+
+func hashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes), err
 }
 
 func createToken(username string) (string, error) {
@@ -41,13 +54,6 @@ func createToken(username string) (string, error) {
 
 }
 
-type LoginResponse struct {
-	Username      string
-	Authenticated bool
-	AuthToken     string `default:""`
-	Message       string `default:""`
-}
-
 func Login(c echo.Context) error {
 	login := new(LoginInfo)
 	err := c.Bind(login)
@@ -57,24 +63,25 @@ func Login(c echo.Context) error {
 	}
 
 	// Find if the username/password match
-	authenticated, err := model.AuthenticateUser(login.Username, login.Password)
+	user, err := model.FindUser(login.Username)
 
-	if authenticated {
-		// If authenticated, then need to create an access token
-		token, err := createToken(login.Username)
-
-		if err != nil {
-			return c.String(http.StatusInternalServerError, "Unable to make authentication token")
-		} else {
-			return c.JSON(http.StatusOK, LoginResponse{
-				Authenticated: true,
-				AuthToken:     token,
-			})
-		}
-	} else {
+	// Compare password with hashed version in DB
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password))
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, LoginResponse{
-			Authenticated: false,
-			Message:       "Invalid Username or Password",
+			Message: "Invalid Username or Password",
+		})
+	}
+
+	// If authenticated, then need to create an access token
+	token, err := createToken(login.Username)
+	if err != nil {
+		return c.String(http.StatusInternalServerError,
+			"Unable to make authentication token")
+	} else {
+		return c.JSON(http.StatusOK, LoginResponse{
+			Authenticated: true,
+			AuthToken:     token,
 		})
 	}
 }
@@ -91,12 +98,18 @@ func Register(c echo.Context) error {
 	_, err = model.FindUser(login.Username)
 	if err == nil {
 		return c.JSON(http.StatusBadRequest, LoginResponse{
-			Authenticated: false,
-			Message:       "Account name already exists",
+			Message: "Account name already exists",
 		})
 	}
 
-	_, err = model.AddUser(login.Username, login.Password)
+	hashedPassword, err := hashPassword(login.Password)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, LoginResponse{
+			Message: "Password not supported",
+		})
+	}
+
+	_, err = model.AddUser(login.Username, hashedPassword)
 	if err != nil {
 		return c.String(http.StatusBadRequest, "Failed to make account")
 	}

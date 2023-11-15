@@ -10,7 +10,7 @@ var schema = `
 CREATE TABLE IF NOT EXISTS users (
 	user_id serial PRIMARY KEY,
 	username VARCHAR ( 50 ) UNIQUE NOT NULL,
-	password VARCHAR ( 50 ) NOT NULL,
+	password VARCHAR ( 100 ) NOT NULL,
 	created_on TIMESTAMP NOT NULL
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS posts (
 
 CREATE TABLE IF NOT EXISTS comments (
     comment_id serial PRIMARY KEY,
-    comment VARCHAR (1000) NOT NULL,
+    comment TEXT NOT NULL,
     created_on TIMESTAMP NOT NULL,
     creator_id INT,
     post_id INT,

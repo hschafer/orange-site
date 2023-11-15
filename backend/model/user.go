@@ -9,20 +9,6 @@ type User struct {
 	CreatedOn string `db:"created_on"`
 }
 
-func AuthenticateUser(username string, password string) (bool, error) {
-	db := storage.GetDBConnection()
-
-	// TODO need to handle salting passwords
-
-	user := User{}
-	err := db.Get(&user, "SELECT * FROM users WHERE username = $1 and password = $2", username, password)
-	if err != nil {
-		return false, err
-	}
-
-	return true, nil
-}
-
 func FindUser(username string) (*User, error) {
 	db := storage.GetDBConnection()
 
@@ -33,14 +19,14 @@ func FindUser(username string) (*User, error) {
 	return &user, err
 }
 
-func AddUser(username string, password string) (*User, error) {
+func AddUser(username string, hashedPassword string) (*User, error) {
 	db := storage.GetDBConnection()
 
 	tx := db.MustBegin()
 	_, err := tx.Exec(`
 		INSERT INTO users (username, password, created_on)
 		VALUES ($1, $2, NOW())
-	`, username, password)
+	`, username, hashedPassword)
 	tx.Commit()
 
 	if err != nil {
