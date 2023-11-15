@@ -27,6 +27,7 @@ function logout() {
         <router-link to="/"><div id="icon">H</div> <span id="title">HunterNews</span></router-link>
         <router-link to="/">posts</router-link> |
         <router-link to="/about">about</router-link> |
+        <router-link to="/submit">submit</router-link> |
         <a @click="login" href="" v-if="!this.$store.getters.isAuthenticated">login</a><a @click="logout" href="" v-else>logout</a>
     </div>
 </template>
