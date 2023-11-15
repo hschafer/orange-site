@@ -71,3 +71,17 @@ func GetPost(id string) (*Post, error) {
 		return &posts[0], err
 	}
 }
+
+func AddPost(user User, post Post) error {
+	db := storage.GetDBConnection()
+
+	tx := db.MustBegin()
+	_, err := tx.Exec(`
+		INSERT INTO posts (title, url, created_on, creator_id)
+		VALUES ($1, $2, NOW(), $3)
+	`, post.Title, post.Url, user.UserID)
+	tx.Commit()
+
+	return err
+
+}
