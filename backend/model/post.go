@@ -16,18 +16,17 @@ type Post struct {
 	NumComments int    `db:"count"`
 }
 
-func buildPostQuery(id ...string) (string, error) {
+func buildPostQuery(includeIDFilter bool) (string, error) {
 	var post_filter string
-	if id == nil {
-		// Return all (no filter)
-		post_filter = ""
-	} else if len(id) == 1 {
-		// Ensure spaces around where clause
-		post_filter = fmt.Sprintf(" WHERE p.post_id = %s ", id[0])
+	if includeIDFilter {
+		post_filter = "WHERE p.post_id = $1"
 	} else {
-		return "", errors.New("Can specify at most one id")
+		post_filter = ""
 	}
 
+	// Note that Sprintf and queries are not recommended (sql injection)
+	// Note that we are only using this to build our query but leave a variable
+	// to insert user input safely
 	query := fmt.Sprintf(`
 		SELECT
 			p.post_id, p.title, p.url, p.created_on, p.creator_id, u.username, COUNT(c.comment_id)
@@ -43,16 +42,26 @@ func buildPostQuery(id ...string) (string, error) {
 }
 
 func getPosts(id ...string) ([]Post, error) {
+	if len(id) != 0 && len(id) != 1 {
+		return nil, errors.New("Can only specify at most one ID")
+	}
+
+	// ...string lets us pass 0 or 1 IDs
 	// Have a pretty complex query to combine post/comment info so we want to use this logic for getting
 	// All posts and a single post
-	query, err := buildPostQuery(id...)
+	query, err := buildPostQuery(len(id) > 0)
 	if err != nil {
 		return nil, err
 	}
 
 	db := storage.GetDBConnection()
 	posts := []Post{}
-	err = db.Select(&posts, query)
+	fmt.Printf(query)
+	if len(id) == 0 {
+		err = db.Select(&posts, query)
+	} else {
+		err = db.Select(&posts, query, id[0])
+	}
 	return posts, err
 }
 
