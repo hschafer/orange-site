@@ -1,9 +1,24 @@
 <script setup>
-import { ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 
 const store = useStore();
-const loggedIn = ref(!store.getters.isAuthenticated);
+const route = useRoute();
+const router = useRouter();
+
+function login() {
+    router.push({
+        path: "login",
+        query: {
+            redirectFrom: route.path
+        }
+    });
+}
+
+function logout() {
+    store.dispatch('logout');
+}
+
 </script>
 
 <template>
@@ -11,7 +26,7 @@ const loggedIn = ref(!store.getters.isAuthenticated);
         <router-link to="/"><div id="icon">H</div> <span id="title">HunterNews</span></router-link>
         <router-link to="/">posts</router-link> |
         <router-link to="/about">about</router-link> |
-        <router-link to="/login" v-if="!this.$store.getters.isAuthenticated">login</router-link><a @click="() => store.dispatch('logout')" href="" v-else>logout</a>
+        <a @click="login" v-if="!this.$store.getters.isAuthenticated">login</a><a @click="logout" href="" v-else>logout</a>
         <!-- TODO do I need a logout page? or is it just some sort of api call? -->
     </div>
 </template>

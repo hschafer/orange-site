@@ -1,8 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-import {useStore} from 'vuex'
+import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
 
 const username = ref(null);
 const password = ref(null);
@@ -10,16 +13,17 @@ const revealPassword = ref(false);
 
 // TODO Should this be a component to reduce Register redundancy?
 // TODO Add ability to hit enter on inputs to submit?
-function submit() {
+async function submit() {
   if (!username.value) {
     alert("Username must not be empty");
   } else if (!password.value) {
     alert("Password must not be empty");
   } else {
-    store.dispatch("login", {
+    await store.dispatch("login", {
       "username": username.value,
       "password": password.value,
     })
+    router.push(route.query.redirectFrom || "/")
   }
 }
 
