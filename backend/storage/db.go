@@ -1,7 +1,9 @@
 package storage
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -53,8 +55,15 @@ type User struct {
 var DB *sqlx.DB
 
 func InitDBConnection() *sqlx.DB {
+	dbName := os.Getenv("DB_NAME")
+	dbUser := os.Getenv("DB_USER")
+	dbPassword := os.Getenv("DB_PASSWORD")
+
+	connectionInfo := fmt.Sprintf("host=db user=%s password=%s dbname=%s sslmode=disable",
+		dbUser, dbPassword, dbName)
+
 	// Set up DB connection
-	db, err := sqlx.Connect("postgres", "host=db user=user password=password dbname=db sslmode=disable")
+	db, err := sqlx.Connect("postgres", connectionInfo)
 	if err != nil {
 		log.Fatalln(err)
 	}

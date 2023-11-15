@@ -3,10 +3,7 @@ package controller
 import (
 	"net/http"
 	"orange-site/backend/model"
-	"os"
-	"time"
 
-	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -23,35 +20,9 @@ type LoginResponse struct {
 	Message       string `default:""`
 }
 
-func GetSecret() string {
-	secret := os.Getenv("SERVER_SECRET")
-	if secret == "" {
-		panic("No secret specified")
-	}
-	return secret
-}
-
 func hashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(bytes), err
-}
-
-func createToken(username string) (string, error) {
-	claims := jwt.MapClaims{}
-	claims["authorized"] = true
-	claims["username"] = username
-	claims["exp"] = time.Now().Add(time.Minute * 60).Unix()
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	secret := GetSecret()
-	tokenStr, err := token.SignedString([]byte(secret))
-
-	if err != nil {
-		return "", err
-	} else {
-		return tokenStr, nil
-	}
-
 }
 
 func Login(c echo.Context) error {
@@ -74,7 +45,7 @@ func Login(c echo.Context) error {
 	}
 
 	// If authenticated, then need to create an access token
-	token, err := createToken(login.Username)
+	token, err := CreateToken(login.Username)
 	if err != nil {
 		return c.String(http.StatusInternalServerError,
 			"Unable to make authentication token")
@@ -114,7 +85,7 @@ func Register(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Failed to make account")
 	}
 
-	token, err := createToken(login.Username)
+	token, err := CreateToken(login.Username)
 
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Unable to make authentication token")

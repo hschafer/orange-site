@@ -52,3 +52,17 @@ func GetComments(id string) ([]*Comment, error) {
 	}
 	return result, err
 }
+
+func AddComment(user User, comment Comment) error {
+	// Only uses the Comment and PostID fields of given comment
+	db := storage.GetDBConnection()
+
+	tx := db.MustBegin()
+	_, err := tx.Exec(`
+		INSERT INTO comments (comment, created_on, creator_id, post_id)
+		VALUES ($1, NOW(), $2, $3)
+	`, comment.Comment, user.UserID, comment.PostID) // TODO Parent ID
+	tx.Commit()
+
+	return err
+}

@@ -4,9 +4,10 @@ import (
 	"orange-site/backend/controller"
 	"orange-site/backend/storage"
 
-	echojwt "github.com/labstack/echo-jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	echojwt "github.com/labstack/echo-jwt/v4"
 
 	_ "github.com/lib/pq"
 )

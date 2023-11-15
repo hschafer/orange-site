@@ -10,6 +10,10 @@ services:
     command: go run main.go
     environment:
       - SERVER_SECRET=${SERVER_SECRET}
+      - DB_NAME=db
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASS}
+
   frontend:
     build:
       context: frontend
