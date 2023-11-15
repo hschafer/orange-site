@@ -39,7 +39,7 @@ const actions = {
     },
 
     async login({ commit }, {username, password}) {
-        // TODO more password validation:?
+        // TODO more password validation?
         return loginOrRegister("/api/login", commit, username, password)
     },
 

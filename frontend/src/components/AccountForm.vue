@@ -17,7 +17,6 @@ const username = ref(null);
 const password = ref(null);
 const revealPassword = ref(false);
 
-// TODO Should this be a component to reduce Register redundancy?
 // TODO Add ability to hit enter on inputs to submit?
 async function submit() {
   if (!username.value) {

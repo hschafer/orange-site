@@ -40,7 +40,6 @@ CREATE TABLE IF NOT EXISTS comments (
         REFERENCES posts (post_id),
 	FOREIGN KEY (parent_id)
 		REFERENCES comments (comment_id)
-    -- TODO nested comments
     -- TODO Votes
 );
 `

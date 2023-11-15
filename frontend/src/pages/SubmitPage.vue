@@ -17,7 +17,7 @@ function submit() {
       return;
     }
     if (!url.value) {
-      alert("Must include link");  // TODO validation based on regex?
+      alert("Must include link");
       return;
     }
 

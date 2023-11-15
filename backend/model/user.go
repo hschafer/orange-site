@@ -14,8 +14,6 @@ func FindUser(username string) (*User, error) {
 
 	user := User{}
 	err := db.Get(&user, "SELECT * FROM users WHERE username = $1", username)
-
-	// TODO sanitize inputs
 	return &user, err
 }
 

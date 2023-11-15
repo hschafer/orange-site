@@ -30,8 +30,6 @@ function onSubComment() {
             </div>
             <p>{{ comment.Comment }}</p>
 
-            <!-- TODO link to comment page-->
-
             <div v-if="showCommentBox">
                 <CommentBox
                     :postID="postID"

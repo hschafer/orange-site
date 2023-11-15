@@ -13,7 +13,6 @@ services:
       - DB_NAME=db
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASS}
-
   frontend:
     build:
       context: frontend
@@ -23,6 +22,8 @@ services:
     depends_on:
       - backend
     command: npx vite
+    environment:
+      - BASE_URL="http://localhost/"
     volumes:
       - "./frontend:/app"
       - "/app/node_modules"  # Anonymous volume to hide local node_modules

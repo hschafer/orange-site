@@ -20,7 +20,6 @@ function previewURL(url) {
     var urlObj = new URL(url);
     return urlObj.hostname;
 }
-// TODO compute a preview URL
 </script>
 
 <template>

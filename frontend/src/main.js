@@ -12,8 +12,7 @@ import axios from 'axios'
 import { createApp } from 'vue'
 import store from './store/'
 
-//axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost/';  // TODO
+axios.defaults.baseURL = import.meta.env.BASE_URL;
 
 const router = createRouter({
     history: createWebHistory(),
