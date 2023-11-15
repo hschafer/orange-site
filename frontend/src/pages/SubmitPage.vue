@@ -21,6 +21,15 @@ function submit() {
       return;
     }
 
+    // minimal URL validation
+    try {
+      new URL(url.value);
+    } catch (error) {
+      alert(`Invalid URL ${url.value}`)
+      return;
+    }
+
+
     axios.post("/api/post/new", {
       "title": title.value,
       "url": url.value
