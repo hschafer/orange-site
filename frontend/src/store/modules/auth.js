@@ -23,6 +23,7 @@ async function loginOrRegister(route, commit, username, password) {
         commit("setToken", response.data.AuthToken)
         commit("setLoginMessage", "")  // Clear login message
     }).catch((error) => {
+        console.log(error)
         if (error.response.data.Message) {
           commit("setLoginMessage", error.response.data.Message)
         } else {
