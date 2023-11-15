@@ -6,7 +6,6 @@ type User struct {
 	UserID    int    `db:"user_id"`
 	Username  string `db:"username"`
 	Password  string `db:"password"`
-	Email     string `db:"email"`
 	CreatedOn string `db:"created_on"`
 }
 

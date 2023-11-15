@@ -1,16 +1,16 @@
 -- Assumes DB has already been created
 
-INSERT INTO users (username, password, email, created_on) VALUES
-    ('user1', 'password1', 'user1@example.com', NOW()),
-    ('user2', 'password2', 'user2@example.com', NOW()),
-    ('user3', 'password3', 'user3@example.com', NOW()),
-    ('user4', 'password4', 'user4@example.com', NOW()),
-    ('user5', 'password5', 'user5@example.com', NOW()),
-    ('user6', 'password6', 'user6@example.com', NOW()),
-    ('user7', 'password7', 'user7@example.com', NOW()),
-    ('user8', 'password8', 'user8@example.com', NOW()),
-    ('user9', 'password9', 'user9@example.com', NOW()),
-    ('user10', 'password10', 'user10@example.com', NOW());
+INSERT INTO users (username, password, created_on) VALUES
+    ('user1', 'password1', NOW()),
+    ('user2', 'password2', NOW()),
+    ('user3', 'password3', NOW()),
+    ('user4', 'password4', NOW()),
+    ('user5', 'password5', NOW()),
+    ('user6', 'password6', NOW()),
+    ('user7', 'password7', NOW()),
+    ('user8', 'password8', NOW()),
+    ('user9', 'password9', NOW()),
+    ('user10', 'password10',  NOW());
 
 
 INSERT INTO posts (title, url, created_on, creator_id) VALUES
