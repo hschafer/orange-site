@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { readableTimestamp} from '../utils/utils.js'
 import CommentBox from './CommentBox.vue';
 
-defineProps({
+const props = defineProps({
     comment: Object,
     postID: Number,
     onComment: Function
@@ -13,6 +13,11 @@ const showCommentBox = ref(false);
 
 function toggleShowComment() {
     showCommentBox.value = !showCommentBox.value;
+}
+
+function onSubComment() {
+    props.onComment();
+    showCommentBox.value = false;
 }
 </script>
 
@@ -30,7 +35,7 @@ function toggleShowComment() {
             <div v-if="showCommentBox">
                 <CommentBox
                     :postID="postID"
-                    :onComment="onComment"
+                    :onComment="onSubComment"
                     :parentID="comment.CommentID"
                 />
             </div>
