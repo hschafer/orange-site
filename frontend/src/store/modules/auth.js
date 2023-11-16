@@ -3,7 +3,6 @@ import axios from 'axios';
 const state = {
     username: null,
     token: null,
-    loginMessage: null
 };
 
 const getters = {
@@ -11,7 +10,6 @@ const getters = {
     getUsername: (state) => state.username,
     getToken: (state) => state.token,
     getAllState: (state) => state,
-    getLoginMessage: (state) => state.loginMessage
 };
 
 async function loginOrRegister(route, commit, username, password) {
@@ -21,16 +19,12 @@ async function loginOrRegister(route, commit, username, password) {
     }).then((response) => {
         commit("setUsername", username)
         commit("setToken", response.data.AuthToken)
-        commit("setLoginMessage", "")  // Clear login message
     }).catch((error) => {
-        console.log(error)
-        if (error.response.data.Message) {
-          commit("setLoginMessage", error.response.data.Message)
-        } else {
-          commit("setLoginMessage", "Unable to log in")
-        }
+        // Clear session info just in case
+        commit("setUsername", null)
+        commit("setToken", null)
+        throw error;
     });
-    // TODO handle login message
 }
 
 const actions = {
@@ -43,7 +37,7 @@ const actions = {
         return loginOrRegister("/api/login", commit, username, password)
     },
 
-    async logout({ commit }) {
+    logout({ commit }) {
         commit("setUsername", null)
         commit("setToken", null)
     }
@@ -55,9 +49,6 @@ const mutations = {
     },
     setToken(state, token) {
         state.token = token
-    },
-    setLoginMessage(state, message) {
-        state.loginMessage = message
     }
 };
 
