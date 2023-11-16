@@ -56,7 +56,6 @@ func getPosts(id ...string) ([]Post, error) {
 
 	db := storage.GetDBConnection()
 	posts := []Post{}
-	fmt.Printf(query)
 	if len(id) == 0 {
 		err = db.Select(&posts, query)
 	} else {
