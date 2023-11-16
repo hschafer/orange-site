@@ -13,14 +13,14 @@ services:
       - DB_NAME=db
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASS}
+    depends_on:
+      - db
   frontend:
     build:
       context: frontend
       dockerfile: Dockerfile
     ports:
       - 8080:8080
-    depends_on:
-      - backend
     command: npx vite
     environment:
       - BASE_URL="http://localhost/"
@@ -49,5 +49,6 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=db
+      - PGDATA=/etc/orange-db
 volumes:
   db-volume:
