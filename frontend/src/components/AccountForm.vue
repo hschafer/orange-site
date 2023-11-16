@@ -16,6 +16,7 @@ const router = useRouter();
 const username = ref(null);
 const password = ref(null);
 const revealPassword = ref(false);
+const errorMessage = ref("");
 
 // TODO Add ability to hit enter on inputs to submit?
 async function submit() {
@@ -27,7 +28,14 @@ async function submit() {
     await store.dispatch(props.action, {
       "username": username.value,
       "password": password.value,
-    })
+    }).catch((error) => {
+      console.log("Login/Register error", error);
+      if (error?.response?.data?.Message) {
+        errorMessage.value =  error.response.data.Message
+      } else {
+        errorMessage.value = `Unable to ${action}`
+      }
+    });
 
     // TODO navigate to account page if registration?
     if (store.getters.isAuthenticated) {
@@ -50,7 +58,7 @@ async function submit() {
       <input class="revealPassword" type="checkbox" v-model="revealPassword"> Show Password
     </div>
     <!-- TODO Login messages are linked between instances -->
-    <button @click="submit">{{ buttonLabel }}</button> <span class="loginMessage" v-if="this.$store.getters.getLoginMessage">{{ this.$store.getters.getLoginMessage }}</span>
+    <button @click="submit">{{ buttonLabel }}</button> <span class="errorMessage" v-if="errorMessage">{{ errorMessage }}</span>
 </template>
 
 <style scoped>
@@ -72,7 +80,7 @@ async function submit() {
     margin-left: 1em;
   }
 
-  .loginMessage {
+  .errorMessage {
     color: red;
     margin-left: 2.4em;
   }
